@@ -1,6 +1,6 @@
 # Testing
 
-> **Template — filled during bootstrap.**
+> Bootstrap 2026-11-13. Projeye özgü kısımlar: "Frameworks & layout" ve "What must be tested"; geri kalanı ANEW sözleşmesidir.
 
 ## The contract
 - Every acceptance criterion maps to at least one test (criterion ↔ test map lives in the plan).
@@ -8,11 +8,35 @@
 - The whole suite runs inside `scripts/check` — one command, everywhere.
 
 ## Frameworks & layout
-<!-- Test framework(s), where tests live, naming pattern. -->
+Bootstrap 2026-11-13. Testler kaynağın yanında durur.
+
+| Katman | Araç | Kanıtladığı | Dosya | Profil |
+|---|---|---|---|---|
+| Unit | Vitest (+ `fast-check` property testleri) | `src/domain/` kuralları: BR-1…BR-10, tarih aritmetiği, para | `*.test.ts` | fast + full |
+| Component | Vitest + Testing Library (jsdom) | Ekran durumları: boş, yükleniyor, hata, başarılı, geri sayım rozetleri | `*.test.tsx` | fast + full |
+| Storage entegrasyonu | Vitest + `fake-indexeddb` | Dexie repository'leri, şema ve migration'lar | `*.int.test.ts` | yalnızca full |
+
+- **e2e yok.** Gerekirse (ör. PWA'nın çevrimdışı açılışı alt katmanlarla kanıtlanamazsa) ADR ile
+  eklenir; o ADR yolculukları ve bütçeyi belirler.
+- **Fast/full ayrımı seçiciyle:** fast adımı `*.int.test.ts` dosyalarını hariç tutan filtreyle,
+  full-only adımı yalnızca `*.int.test.ts` filtresiyle çalışır (Two speeds, kural 4).
+- **Determinizm (bu stack'te nasıl):**
+  - "Bugün" sabit: domain'e parametre, ekranlara test saat sağlayıcısıyla verilir.
+  - `TZ=Europe/Istanbul` ve `tr-TR` locale check komutunda sabitlenir.
+  - `fast-check` seed'i sabit (Vitest setup dosyasında).
+  - Test build'inde animasyon/geçişler kapalı; service worker testlerde kayıtlı değil.
+  - Her test kendi boş `fake-indexeddb` örneğiyle başlar (Resource hygiene, kural 5).
+- **UI kanıtı:** ekran görüntülerini ajan headless Playwright ile repo ve check dışında çeker
+  (Evidence for UI criteria); Playwright burada test aracı değildir.
 
 ## What must be tested
-<!-- e.g. every business rule (BR-n), every boundary/forbidden dependency; the e2e journeys and
-     budget, if the project has e2e at all (Test layers). -->
+- Her iş kuralı BR-n en az bir test; hassas alan 1'deki kurallar (BR-1…BR-4, BR-6) ayrıca
+  property testleriyle (ay sonu, 29 Şubat, yıl dönümü, "bugün" sınırı).
+- Her yasak bağımlılık (`docs/architecture.md` 1–4) ESLint kuralı olarak check içinde.
+- Her Dexie şema sürümü için migration entegrasyon testi (Known traps).
+- İçe aktarma (yedekten geri yükleme): bozuk dosya mevcut veriyi ezmez (`docs/security.md`).
+- Global kapsam yüzdesi eşiği yok; ölçüt "her kural ve her sınırın testi var".
+- e2e yolculuğu ve bütçesi: yok (0 yolculuk, 0 dakika).
 
 ## Test layers
 1. **The cheapest test that proves the criterion.** Unit first, then component or integration

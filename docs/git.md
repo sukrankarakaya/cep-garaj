@@ -1,6 +1,7 @@
 # Git
 
-> **Template — adjust at bootstrap.** Defaults below are safe; loosen consciously, not accidentally.
+> Bootstrap 2026-11-13: şablonun güvenli varsayılanları olduğu gibi kabul edildi; projeye özgü
+> eklemeler "Commits" altında. Gevşetmek bilinçli bir karardır, kazara değil.
 
 ## Branching
 - `feature/<spec-no>-<short-name>` — **no branch without a spec.** Also for CHANGE-lane mini-specs.
@@ -23,6 +24,9 @@
   another command in the chain that decides it: in `./scripts/check | grep … && git commit` the
   chain takes grep's exit code, so a red check commits. Keep the output aside and gate on check
   alone: `./scripts/check > check.log 2>&1 && git commit …` (then show `check.log`).
+- **cep-garaj:** commit scope modül adıdır — `garaj`, `hatirlatici`, `bakim`, `masraf`, `domain`,
+  `storage`, `ui`, `app` (bootstrap/araç işleri için `chore`, belgeler için `docs`). Commit
+  mesajları ve dal adları İngilizce; spec ve planlar Türkçe (`docs/conventions.md`, Language).
 - Commit named paths only: `git commit -- <paths>`, never `git add -A`, `git add .` or
   `commit -a`. Another session or tool may have written or staged files in the same tree.
 
@@ -33,6 +37,8 @@
 ## Trivial changes
 <!-- Set at bootstrap. Applies only to requests the change-request triage rubric
      (workflows/change-request.md) classifies as TRIVIAL: no acceptance criterion changes, no shared code. -->
+- **Seçilen (bootstrap 2026-11-13): (1) PR + one reviewer, no spec.** Tek geliştiriciyle reviewer,
+  salt okunur reviewer ajanı olabilir (üretici kendi işini doğrulamaz).
 - Policy: **(1) PR + one reviewer, no spec** — default; alternatives: (2) direct commit allowed on a
   `trivial/<short-name>` branch · (3) everything goes through a mini-spec (`specs/TEMPLATE-mini.md`;
   no ANALYZE here: run the self-critique pass of `prompts/spec.md`, then `Self-critique: done`).
