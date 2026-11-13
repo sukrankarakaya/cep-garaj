@@ -64,7 +64,8 @@ hatırlatıcılar, masraflar ve telefona kurulum / çevrimdışı açılış (PW
   - `scripts/check.conf` içindeki planlı adımlar aktif hale gelir; `./scripts/check` (full ve
     `--fast`) gerçek adımlarla yeşil; `./scripts/residue` iki profilde temiz; her test adımının
     test sayısı switch'lerden önce ve sonra aynı.
-  - CI (`.github/workflows/check.yml`) Node 24 ve `npm ci` ile full profili çalıştırır.
+  - CI (`.github/workflows/check.yml`) Node 26 LTS ve `npm ci` ile full profili çalıştırır
+    (plan 0001 Risk 1 kararı).
   - Kesin bağımlılık sürümleri `package-lock.json` ile sabitlenir ve `docs/conventions.md`'ye yazılır.
 - Out of scope: araç düzenleme, silme ve arşivleme (BR-10); şasi no (BR-8); km (BR-5); tescil
   tarihi ve tüm hatırlatıcılar (hassas alan 1); bakım, yakıt, masraf; Türk plaka biçimi kontrolü
@@ -93,7 +94,7 @@ hatırlatıcılar, masraflar ve telefona kurulum / çevrimdışı açılış (PW
 ## Scorecard (fill at ship — honest numbers make the process improvable)
 | Metric | Value |
 |---|---|
-| Spec revisions | 1 (plan gate, R-08: `İ` → `I`, 2026-11-13) |
+| Spec revisions | 2 (plan gate, R-08: `İ` → `I`; review round 1 L-1, R-08: Node 24 → 26 — 2026-11-13) |
 | Fix rounds | |
 | Review findings: real / noise / deferred | |
 | Regressions introduced | |
