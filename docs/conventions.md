@@ -17,10 +17,14 @@
   paths and protocol fields verbatim.
 
 ## Language & framework versions
-- TypeScript 5.x (`strict: true`), React 19, Vite, Dexie (IndexedDB), PWA (service worker + manifest).
-- Node.js 24 LTS — yalnızca derleme ve test için; kullanıcı tarafında sunucu yok.
-- Tam sürümler walking skeleton'da `package-lock.json` ile sabitlenir ve buraya yazılır
-  (o tarihte gerçekten yayınlanmış sürümler doğrulanarak). Kurulum her zaman `npm ci`.
+Sabitlendi: spec 0001 (2026-11-13), `package.json` exact sürümler + `package-lock.json`; kurulum her zaman `npm ci`.
+- Node.js **26 LTS** (makinede 26.13.1; `requires` ≥ 26) ve npm 11 — yalnızca derleme/test; kullanıcı tarafında sunucu yok.
+  (Bootstrap'te "24 LTS" yazılmıştı; plan 0001 Risk 1 ile 26'ya geçildi.)
+- TypeScript 5.9.3 (`strict: true`; typescript-eslint 8.72 TS < 6.1 destekliyor), React 19.3.1, Vite 8.3.8, Dexie 4.4.7.
+- Test: Vitest 5.1.0, jsdom 31.0.1, Testing Library (react 16.3.3, dom 10.4.2, user-event 14.6.10, jest-dom 7.0.1), fake-indexeddb 6.2.8.
+- Araçlar: ESLint 10.14.0 + typescript-eslint 8.72.2, Prettier 3.10.1.
+- Proje `.npmrc`: `legacy-peer-deps=false`, `engine-strict=true` (kullanıcı ayarlarını ezer; plan 0001 A-1).
+- PWA (service worker + manifest): spec 0002.
 
 ## Naming
 - Dosyalar `kebab-case.ts`; React bileşen dosyaları `PascalCase.tsx`.
@@ -58,6 +62,7 @@
 - Dexie şeması değişip `version()` artırılmazsa kullanıcı verisi açılmaz/kaybolur — her şema değişikliği yeni `version(n)` + migration + migration entegrasyon testi — from bootstrap 2026-11-13
 - Service worker eski sürümü önbellekte tutar — güncelleme stratejisini açıkça seç ("yeni sürüm var, yenile"); test ve geliştirmede service worker kapalı — from bootstrap 2026-11-13
 - IndexedDB verisi depolama dolunca veya iOS'ta uzun kullanılmamada silinebilir — `navigator.storage.persist()` iste; dışa aktarma (yedek) ilk özellikler arasında — from bootstrap 2026-11-13
+- ESLint `no-restricted-properties` yalnızca `nesne.özellik` biçimini eşler; `window.navigator.sendBeacon`, `window.self.fetch`, `Date()` gibi biçimler kaçar — global API yasaklarında `no-restricted-syntax` ile `property.name` / `callee` seçicisi kullan ve kural testine ekle — from 0001 review L-2
 
 ## Enforced by tooling
 <!-- Wire new rules into `scripts/check` whenever possible — prose is advice, tooling is law. -->

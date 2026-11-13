@@ -1,0 +1,16 @@
+# Prettier formats only the app's own code and config (docs/conventions.md, Enforced by tooling).
+# ANEW workspace files (docs, specs, prompts, workflows, adapters, scripts) are hand-written Markdown/shell.
+*.md
+adapters/
+docs/
+prompts/
+specs/
+workflows/
+scripts/
+.anew-dev/
+.claude/
+.github/
+node_modules/
+dist/
+coverage/
+package-lock.json

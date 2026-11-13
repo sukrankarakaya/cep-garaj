@@ -19,8 +19,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      # The bootstrap workflow may add toolchain setup steps here (e.g. setup-java, setup-node)
-      # to match the commands it writes into scripts/check.conf.
+      # Toolchain for scripts/check.conf (docs/conventions.md: Node 26 LTS, npm ci; plan 0001).
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "26"
+          cache: npm
+      - name: Install dependencies (lockfile only)
+        run: npm ci
       # --fast is for the inner loop only; CI always runs the full contract (docs/testing.md).
       - name: Verification contract
         run: |
