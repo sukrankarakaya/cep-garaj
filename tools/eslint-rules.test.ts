@@ -11,6 +11,12 @@ async function kurallar(code: string, filePath: string): Promise<string[]> {
   return (result?.messages ?? []).map((m) => m.ruleId ?? m.message);
 }
 
+// ESLint loads its config and plugins on the first call (seconds under a parallel run): pay that
+// once here, so no single assertion carries the cold start.
+beforeAll(async () => {
+  await eslint.lintText("export {};", { filePath: "src/domain/isinma.ts" });
+}, 30_000);
+
 describe("yasak bağımlılık kuralları", () => {
   it.each([
     "import { x } from 'react';",
