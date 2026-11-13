@@ -13,3 +13,5 @@ step 7). Nothing lands here without that decision; noise is rejected in the tria
   — Recommendation: <the reviewer's action> — Deferred by: <name>, <YYYY-MM-DD>, <why>
   A decision deferred at bootstrap (its REPORT) uses Source: bootstrap <YYYY-MM-DD>.
 -->
+
+- **B-1** — BR-2: scooter / 50 cc altı motorlu bisiklet için yasal muayene kuralı bilinmiyor; şimdilik aralığı kullanıcı giriyor — Source: bootstrap 2026-11-13 — Severity: Low — Recommendation: resmi kaynaktan (Karayolları Trafik Yönetmeliği) doğrulayıp BR-2'yi kesin kurala çevirmek için bir CHANGE mini-spec'i açmak — Deferred by: sukrankarakaya, 2026-11-13, bootstrap'te kesin kural bilinmediği için
