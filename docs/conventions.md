@@ -62,6 +62,7 @@ Sabitlendi: spec 0001 (2026-11-13), `package.json` exact sürümler + `package-l
 - Dexie şeması değişip `version()` artırılmazsa kullanıcı verisi açılmaz/kaybolur — her şema değişikliği yeni `version(n)` + migration + migration entegrasyon testi — from bootstrap 2026-11-13
 - Service worker eski sürümü önbellekte tutar — güncelleme stratejisini açıkça seç ("yeni sürüm var, yenile"); test ve geliştirmede service worker kapalı — from bootstrap 2026-11-13
 - IndexedDB verisi depolama dolunca veya iOS'ta uzun kullanılmamada silinebilir — `navigator.storage.persist()` iste; dışa aktarma (yedek) ilk özellikler arasında — from bootstrap 2026-11-13
+- ESLint `no-restricted-properties` yalnızca `nesne.özellik` biçimini eşler; `window.navigator.sendBeacon`, `window.self.fetch`, `Date()` gibi biçimler kaçar — global API yasaklarında `no-restricted-syntax` ile `property.name` / `callee` seçicisi kullan ve kural testine ekle — from 0001 review L-2
 
 ## Enforced by tooling
 <!-- Wire new rules into `scripts/check` whenever possible — prose is advice, tooling is law. -->

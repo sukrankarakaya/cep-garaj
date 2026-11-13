@@ -15,10 +15,22 @@ const networkProperties = [
     NETWORK_APIS.map((property) => [object, property]),
   ),
 ].map(([object, property]) => ({ object, property, message: NETWORK_MSG }));
+// no-restricted-properties matches object.property only, so chains like window.navigator.sendBeacon
+// or window.self.fetch escape it (Known traps; review 0001 L-2): match the property by name.
+const networkMember = {
+  selector: `MemberExpression[property.name=/^(sendBeacon|${NETWORK_APIS.join("|")})$/]`,
+  message: NETWORK_MSG,
+};
 
 const CLOCK_MSG = "Saat yalnızca src/app/ saat sağlayıcısında okunur (docs/architecture.md).";
 const dateNow = { object: "Date", property: "now", message: CLOCK_MSG };
-const newDate = { selector: "NewExpression[callee.name='Date']", message: CLOCK_MSG };
+const clockSyntax = [
+  "NewExpression[callee.name='Date']",
+  "CallExpression[callee.name='Date']", // Date() without new also returns the current time
+  "NewExpression[callee.property.name='Date']", // new globalThis.Date()
+  "CallExpression[callee.property.name='Date']",
+  "MemberExpression[object.property.name='Date'][property.name='now']", // window.Date.now()
+].map((selector) => ({ selector, message: CLOCK_MSG }));
 const innerHtml = {
   selector: "JSXAttribute[name.name='dangerouslySetInnerHTML']",
   message: "dangerouslySetInnerHTML yasak (docs/security.md).",
@@ -90,14 +102,14 @@ export default tseslint.config(
     rules: {
       "no-restricted-globals": ["error", ...networkGlobals],
       "no-restricted-properties": ["error", ...networkProperties, dateNow],
-      "no-restricted-syntax": ["error", innerHtml, newDate],
+      "no-restricted-syntax": ["error", innerHtml, networkMember, ...clockSyntax],
     },
   },
   {
     files: ["src/app/**/*.{ts,tsx}"],
     rules: {
       "no-restricted-properties": ["error", ...networkProperties],
-      "no-restricted-syntax": ["error", innerHtml],
+      "no-restricted-syntax": ["error", innerHtml, networkMember],
     },
   },
   {

@@ -72,6 +72,11 @@ describe("yasak bağımlılık kuralları", () => {
     ["navigator.sendBeacon('/x');", "no-restricted-properties"],
     ["window.fetch('/x');", "no-restricted-properties"],
     ["globalThis.fetch('/x');", "no-restricted-properties"],
+    // review round 1, L-2: chains that no-restricted-properties (object.property) misses
+    ["window.navigator.sendBeacon('/x');", "no-restricted-syntax"],
+    ["globalThis.navigator.sendBeacon('/x');", "no-restricted-syntax"],
+    ["window.self.fetch('/x');", "no-restricted-syntax"],
+    ["new window.parent.WebSocket('ws://x');", "no-restricted-syntax"],
   ])("4: ağ API'leri reddedilir: %s", async (code, kural) => {
     for (const dosya of [
       "src/domain/a.ts",
@@ -89,7 +94,14 @@ describe("yasak bağımlılık kuralları", () => {
   });
 
   it("saat yalnızca src/app/ içinde okunur", async () => {
-    for (const code of ["export const t = new Date();", "export const t = Date.now();"]) {
+    for (const code of [
+      "export const t = new Date();",
+      "export const t = Date.now();",
+      // review round 1, L-2: Date() without new also returns the current time
+      "export const t = Date();",
+      "export const t = new globalThis.Date();",
+      "export const t = window.Date.now();",
+    ]) {
       expect(await kurallar(code, "src/domain/a.ts")).not.toHaveLength(0);
       expect(await kurallar(code, "src/features/garaj/a.ts")).not.toHaveLength(0);
       expect(await kurallar(code, "src/app/saat.ts")).toHaveLength(0);
