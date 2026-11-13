@@ -1,6 +1,6 @@
 # Spec 0001 — Walking skeleton: garaja araç ekleme ve listeleme
 
-- Status: In progress
+- Status: Shipped
 - Mode: lite
 - Plan: `specs/plans/0001-plan.md`
 - Self-critique: done
@@ -72,30 +72,35 @@ hatırlatıcılar, masraflar ve telefona kurulum / çevrimdışı açılış (PW
   (B-2); PWA kurulumu, service worker ve çevrimdışı açılış (spec 0002); dışa/içe aktarma.
 
 ## Acceptance criteria
-- [ ] AC-1 — Garajda araç yokken garaj ekranı "Garajında henüz araç yok" metnini ve "Araç ekle" butonunu gösterir.
-- [ ] AC-2 — Araçlar okunurken garaj ekranı "Yükleniyor…" gösterir; okuma bitince liste veya boş durum görünür.
-- [ ] AC-3 — Dört alan geçerli doldurulup kaydedilince garaj ekranına dönülür ve araç tür, marka, model ve plakasıyla listede görünür; kayıt sürerken "Kaydet" devre dışıdır (iki hızlı tıklama tek araç oluşturur).
-- [ ] AC-4 — Uygulama yeniden başlatıldığında (aynı cihaz depolaması) daha önce eklenen araçlar aynı sırayla listelenir.
-- [ ] AC-5 — Birden çok araç varken liste eklenme zamanına göre, son eklenen en üstte olacak şekilde sıralıdır.
-- [ ] AC-6 — Tür seçilmemişse, marka, model veya plakadan biri boş ya da yalnızca boşluksa, marka veya model boşluklar silindikten sonra 50 karakteri aşıyorsa ("En fazla 50 karakter") ya da normalize edilmiş plaka A–Z ve 0–9 dışında karakter içeriyorsa ("Plaka yalnızca harf ve rakam içerebilir"; ör. "34-ABC-123", "34ÇŞ12") araç kaydedilmez; o alan için mesaj gösterilir ve diğer alanların değerleri korunur. Marka ve model baştaki/sondaki boşluklar silinmiş, harf büyüklüğü korunmuş olarak kaydedilir.
-- [ ] AC-7 — Plaka büyük harfe çevrilip tüm boşlukları silinerek kaydedilir ve öyle gösterilir (ör. " 34 abc 123 " → "34ABC123"); çevirme cihaz dilinden bağımsızdır: "34 abi 12", "34 abı 12" ve "34 İab 12" → "34ABI12" / "34IAB12" (tr-TR locale'de de).
-- [ ] AC-8 — Normalize edilmiş hali garajdaki bir aracın plakasıyla aynı olan plaka (ör. "34abc123" varken "34 ABC 123") kaydedilmez ve "Bu plaka garajda zaten var" mesajı gösterilir.
-- [ ] AC-9 — Kayıt depolama hatasıyla başarısız olursa form "Araç kaydedilemedi. Tarayıcı depolamasına erişilemiyor." mesajını gösterir, girilen değerler korunur ve ham hata metni görünmez; okuma başarısızsa garaj ekranı "Araçlar yüklenemedi. Tarayıcı depolamasına erişilemiyor." gösterir.
-- [ ] AC-10 — Uygulama açılışta kalıcı depolama izni ister; izin reddedilse veya API yoksa kullanıcıya bir şey gösterilmez ve ekleme/listeleme çalışmaya devam eder.
-- [ ] AC-11 — Uygulama kodu ağ API'si çağırmaz: ekleme ve listeleme akışları boyunca fetch, XMLHttpRequest, WebSocket ve sendBeacon hiç çağrılmaz, ve kaynak kodda bunların kullanımı `scripts/check` tarafından reddedilir (sayfanın kendi dosyalarının yüklenmesi kapsam dışı).
+- [x] AC-1 — Garajda araç yokken garaj ekranı "Garajında henüz araç yok" metnini ve "Araç ekle" butonunu gösterir.
+- [x] AC-2 — Araçlar okunurken garaj ekranı "Yükleniyor…" gösterir; okuma bitince liste veya boş durum görünür.
+- [x] AC-3 — Dört alan geçerli doldurulup kaydedilince garaj ekranına dönülür ve araç tür, marka, model ve plakasıyla listede görünür; kayıt sürerken "Kaydet" devre dışıdır (iki hızlı tıklama tek araç oluşturur).
+- [x] AC-4 — Uygulama yeniden başlatıldığında (aynı cihaz depolaması) daha önce eklenen araçlar aynı sırayla listelenir.
+- [x] AC-5 — Birden çok araç varken liste eklenme zamanına göre, son eklenen en üstte olacak şekilde sıralıdır.
+- [x] AC-6 — Tür seçilmemişse, marka, model veya plakadan biri boş ya da yalnızca boşluksa, marka veya model boşluklar silindikten sonra 50 karakteri aşıyorsa ("En fazla 50 karakter") ya da normalize edilmiş plaka A–Z ve 0–9 dışında karakter içeriyorsa ("Plaka yalnızca harf ve rakam içerebilir"; ör. "34-ABC-123", "34ÇŞ12") araç kaydedilmez; o alan için mesaj gösterilir ve diğer alanların değerleri korunur. Marka ve model baştaki/sondaki boşluklar silinmiş, harf büyüklüğü korunmuş olarak kaydedilir.
+- [x] AC-7 — Plaka büyük harfe çevrilip tüm boşlukları silinerek kaydedilir ve öyle gösterilir (ör. " 34 abc 123 " → "34ABC123"); çevirme cihaz dilinden bağımsızdır: "34 abi 12", "34 abı 12" ve "34 İab 12" → "34ABI12" / "34IAB12" (tr-TR locale'de de).
+- [x] AC-8 — Normalize edilmiş hali garajdaki bir aracın plakasıyla aynı olan plaka (ör. "34abc123" varken "34 ABC 123") kaydedilmez ve "Bu plaka garajda zaten var" mesajı gösterilir.
+- [x] AC-9 — Kayıt depolama hatasıyla başarısız olursa form "Araç kaydedilemedi. Tarayıcı depolamasına erişilemiyor." mesajını gösterir, girilen değerler korunur ve ham hata metni görünmez; okuma başarısızsa garaj ekranı "Araçlar yüklenemedi. Tarayıcı depolamasına erişilemiyor." gösterir.
+- [x] AC-10 — Uygulama açılışta kalıcı depolama izni ister; izin reddedilse veya API yoksa kullanıcıya bir şey gösterilmez ve ekleme/listeleme çalışmaya devam eder.
+- [x] AC-11 — Uygulama kodu ağ API'si çağırmaz: ekleme ve listeleme akışları boyunca fetch, XMLHttpRequest, WebSocket ve sendBeacon hiç çağrılmaz, ve kaynak kodda bunların kullanımı `scripts/check` tarafından reddedilir (sayfanın kendi dosyalarının yüklenmesi kapsam dışı).
 
 ## Definition of Done
-- [ ] Every acceptance criterion mapped to proof (test or reproducible observation)
-- [ ] `scripts/check` green
-- [ ] Independent review done; real findings fixed, noise rejected with written rationale, deferred ones in `specs/backlog.md`
-- [ ] Docs / ADRs updated if behavior or architecture changed
-- [ ] Spec moved to `specs/done/` (it becomes immutable there)
+- [x] Every acceptance criterion mapped to proof (test or reproducible observation)
+- [x] `scripts/check` green
+- [x] Independent review done; real findings fixed, noise rejected with written rationale, deferred ones in `specs/backlog.md`
+- [x] Docs / ADRs updated if behavior or architecture changed
+- [x] Spec moved to `specs/done/` (it becomes immutable there)
+
+## Ship evidence
+- VERIFY (bağımsız QA, 2026-11-14): AC-1…AC-11 PASS; her kriter bir kez bilerek bozuldu → kırmızı (tablo: `specs/plans/0001-plan.md`, ## Verify).
+- Full green: CI run 43507509689 @4f990d1 (success); ship commit yalnızca `specs/` değiştirir (Two speeds rule 6).
+- UI: S-1…S-7 agent-captured, judged by sukrankarakaya at SHIP, 2026-11-14 (yükleniyor, boş, liste, okuma hatası, doğrulama hatası, kayıt hatası, başarılı; repo dışında, SHIP sonrası silinir).
 
 ## Scorecard (fill at ship — honest numbers make the process improvable)
 | Metric | Value |
 |---|---|
 | Spec revisions | 2 (plan gate, R-08: `İ` → `I`; review round 1 L-1, R-08: Node 24 → 26 — 2026-11-13) |
-| Fix rounds | |
-| Review findings: real / noise / deferred | |
-| Regressions introduced | |
-| Bugs escaped to production | |
+| Fix rounds | 1 |
+| Review findings: real / noise / deferred | 4 / 2 / 1 (round 1: L-1, L-2, L-3, I-1 real · I-2 → B-2; round 2: Info-1, Info-2 noise) |
+| Regressions introduced | 0 |
+| Bugs escaped to production | 0 (henüz yayında değil) |
